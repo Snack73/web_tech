@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAIT Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="quiz-container">
+        <header>
+            <h1>Harvard Law History & Courses Quiz</h1>
+        </header>
+
+        <main>
+            <section id="question-area">
+                <h2 id="question-text">Loading question...</h2>
+            </section>
+
+            <section id="options-area" class="options-grid">
+                </section>
+
+            <button id="submit-answer">Submit Answer</button>
+
+            <section id="feedback-area" class="feedback" aria-live="polite">
+                </section>
+
+            <section id="score-area" class="score-board" style="display: none;">
+                <h2>Quiz Complete!</h2>
+                <p>Your score: <span id="final-score">0</span> / <span id="total-questions">0</span></p>
+                <button id="retake-quiz">Retake Quiz</button>
+                </section>
+        </main>
+
+        <section id="progress-area" class="progress-container">
+             <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </section>
+
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

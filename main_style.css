@@ -1,0 +1,326 @@
+/* style.css - Basic Styling and Animation Hooks */
+
+/* Basic Reset/Box Model */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif; /* Changed font for better readability */
+    background-color: #e0f2f7; /* Light blue background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.quiz-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px; /* Slightly more rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    opacity: 0; /* Start hidden for fade-in animation */
+    animation: fadeInContainer 1s ease-out forwards; /* Fade in the whole quiz */
+}
+
+@keyframes fadeInContainer {
+    to { opacity: 1; }
+}
+
+
+header h1 {
+    color: #0277bd; /* Deep blue */
+    margin-bottom: 25px;
+    font-size: 2em;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+#question-area {
+    margin-bottom: 20px;
+    min-height: 70px; /* Give it more space */
+    display: flex; /* Center text vertically if needed */
+    align-items: center;
+    justify-content: center;
+}
+
+#question-text {
+    color: #333;
+    font-size: 1.5em;
+    margin: 0; /* Reset default margin */
+    /* Animation applied via JS on load */
+}
+
+/* Options Styling (using Grid for layout) */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted min width */
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.option-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #b3e5fc; /* Light blue border */
+    border-radius: 5px;
+    background-color: #e1f5fe; /* Very light blue */
+    color: #01579b; /* Darker blue */
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+    text-align: left;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* subtle shadow */
+}
+
+.option-btn:hover:not(:disabled) {
+    background-color: #b3e5fc; /* Light blue hover */
+    border-color: #81d4fa;
+    transform: translateY(-3px); /* More pronounced lift */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.option-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    filter: grayscale(50%); /* Visually indicate disabled */
+}
+
+/* Class added by JS when an option is selected */
+.option-btn.selected {
+    background-color: #03a9f4; /* Vibrant blue */
+    color: white;
+    border-color: #03a9f4;
+    transform: scale(1.02); /* Slightly larger on selection */
+    box-shadow: 0 0 10px rgba(3, 169, 244, 0.6); /* Glow effect */
+}
+
+/* Styles added by JS AFTER submission for feedback */
+.option-btn.correct-answer-indicator {
+    background-color: #81c784; /* Light green */
+    border-color: #4caf50; /* Green */
+    color: white;
+    font-weight: bold;
+    /* Optional animation for correct answer */
+    animation: pulseCorrect 0.8s ease-in-out forwards;
+}
+
+@keyframes pulseCorrect {
+    0% { transform: scale(1.02); box-shadow: 0 0 10px rgba(76, 175, 80, 0.6); }
+    50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(76, 175, 80, 0.8); }
+    100% { transform: scale(1.02); box-shadow: 0 0 10px rgba(76, 175, 80, 0.6); }
+}
+
+.option-btn:not(.correct-answer-indicator).disabled-after-submit {
+     /* Style for options that were not correct and are now disabled */
+    background-color: #ef9a9a; /* Light red */
+    border-color: #f44336; /* Red */
+    color: #b71c1c; /* Dark red text */
+    /* Optional animation for incorrect options */
+    /* animation: shakeIncorrect 0.5s; */
+}
+
+/* Example shake animation (add this if you use the class above) */
+/*
+@keyframes shakeIncorrect {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+*/
+
+
+#submit-answer {
+    padding: 12px 30px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.3em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#submit-answer:hover:not(:disabled) {
+    background-color: #388E3C; /* Darker green */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+#submit-answer:disabled {
+    background-color: #cccccc; /* Grey */
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+    box-shadow: none;
+}
+
+#feedback-area {
+    min-height: 50px; /* More space for feedback */
+    font-size: 1.1em;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    visibility: hidden; /* Hidden by default */
+    opacity: 0; /* For fade animation */
+    transition: opacity 0.5s ease, visibility 0.5s ease; /* Animation for appearance */
+    text-align: center;
+}
+
+/* Classes added by JS for feedback - these trigger the transition */
+.feedback.correct {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    visibility: visible;
+    opacity: 1;
+}
+
+.feedback.incorrect {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    visibility: visible;
+    opacity: 1;
+}
+
+.feedback .explanation {
+    display: block; /* Ensures explanation is on a new line */
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #444;
+    font-style: italic;
+}
+
+/* Score Area */
+.score-board {
+    margin-top: 30px;
+    padding: 25px;
+    border: 1px solid #b3e5fc;
+    border-radius: 8px;
+    background-color: #e1f5fe;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.score-board h2 {
+    color: #0277bd;
+    margin-bottom: 15px;
+}
+
+.score-board p {
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+#retake-quiz {
+    padding: 10px 25px;
+    background-color: #039be5; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#retake-quiz:hover {
+    background-color: #0288d1; /* Darker blue */
+    transform: translateY(-2px);
+}
+
+/* Optional: Progress Bar */
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-top: 25px;
+    height: 12px; /* Slightly thinner */
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #4CAF50; /* Green */
+    border-radius: 5px;
+    transition: width 0.5s ease-in-out; /* Smooth transition */
+    text-align: center; /* For text if added */
+    color: white; /* For text if added */
+    line-height: 12px; /* Vertically align text if added */
+    font-size: 0.8em; /* For text if added */
+}
+
+
+/* CSS Animations (Examples) */
+
+/* Fade in element */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); } /* Added slight slide */
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Apply animation to question text when loaded - Triggered by JS resetting animation */
+#question-text {
+    animation: fadeIn 0.7s ease-out;
+}
+
+/* Apply animation to options when loaded - Need JS to stagger or apply to container */
+.options-grid {
+     /* Example: Add 'animation: fadeIn 0.8s ease-out;' here to animate the whole grid */
+}
+
+
+/* Example of staggering options with JS: Add a class like .animate-option */
+/*
+.option-btn.animate-option {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+*/
+
+
+/* Media Query for Responsiveness */
+@media (max-width: 600px) {
+    .quiz-container {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 1.7em;
+        margin-bottom: 20px;
+    }
+
+    #question-text {
+        font-size: 1.3em;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr; /* Stack options on small screens */
+        gap: 10px;
+    }
+
+    .option-btn {
+        padding: 12px;
+        font-size: 1em;
+    }
+
+    #submit-answer {
+        padding: 10px 20px;
+        font-size: 1.1em;
+    }
+
+    .score-board p {
+        font-size: 1.2em;
+    }
+}
